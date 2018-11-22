@@ -1,10 +1,12 @@
 import React, { Component } from "react";
+import "./App.css";
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.city = "Lisbon";
-  }
+  city = "Lisbon";
+
+  temperature = function() {
+    return 12;
+  };
 
   render() {
     return (
@@ -24,9 +26,12 @@ export default class App extends Component {
             <div className="clearfix">
               <img
                 className="weather__icon weather__icon--today"
+                alt="weather icon"
                 src="http://openweathermap.org/img/w/02d.png"
               />
-              <div className="weather-temp weather-temp--today">12</div>
+              <div className="weather-temp weather-temp--today">
+                {this.temperature()}
+              </div>
               <div className="weather-unit__text weather-unit__text--today">
                 °C
               </div>
