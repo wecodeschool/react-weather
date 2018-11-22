@@ -2,22 +2,24 @@ import React, { Component } from "react";
 import "./App.css";
 
 export default class App extends Component {
-  city = "Lisbon";
-
-  temperature = function() {
-    return 12;
+  conditions = {
+    city: "Lisbon",
+    time: "Thu 15:09",
+    temperature: 12,
+    description: "Clouds",
+    precipitation: "62%",
+    wind: "4 km/h",
+    imgUrl: "http://openweathermap.org/img/w/02d.png"
   };
 
   render() {
     return (
       <div className="weather-summary">
         <div className="weather-summary-header">
-          <h1 id="weather-location">{this.city}</h1>
-          <div id="weather-date" className="weather-detail__text">
-            Thu 15:09
-          </div>
-          <div className="weather-detail__text" id="weather-description">
-            Clouds
+          <h1>{this.conditions.city}</h1>
+          <div className="weather-detail__text">{this.conditions.time}</div>
+          <div className="weather-detail__text">
+            {this.conditions.description}
           </div>
         </div>
 
@@ -27,10 +29,10 @@ export default class App extends Component {
               <img
                 className="weather__icon weather__icon--today"
                 alt="weather icon"
-                src="http://openweathermap.org/img/w/02d.png"
+                src={this.conditions.imgUrl}
               />
               <div className="weather-temp weather-temp--today">
-                {this.temperature()}
+                {this.conditions.temperature}
               </div>
               <div className="weather-unit__text weather-unit__text--today">
                 °C
@@ -39,10 +41,10 @@ export default class App extends Component {
           </div>
           <div className="col-md-6">
             <div className="weather-detail__text">
-              Precipitation: <span id="precipitation-probality">62%</span>
+              Precipitation: {this.conditions.precipitation}
             </div>
             <div className="weather-detail__text">
-              Wind: <span id="wind-speed">4 km/h</span>
+              Wind: {this.conditions.wind}
             </div>
           </div>
         </div>
