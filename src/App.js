@@ -4,12 +4,12 @@ import "./App.css";
 export default class App extends Component {
   conditions = {
     city: "Lisbon",
-    time: "Thu 15:09",
-    temperature: 12,
     description: "Clouds",
+    imgUrl: "http://openweathermap.org/img/w/02d.png",
     precipitation: "62%",
-    wind: "4 km/h",
-    imgUrl: "http://openweathermap.org/img/w/02d.png"
+    temperature: 12,
+    time: "Thu 15:09",
+    wind: "4 km/h"
   };
 
   render() {
