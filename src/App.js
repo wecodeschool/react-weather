@@ -6,12 +6,13 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {};
-    let root = "https://api.openweathermap.org";
+
+    let apiUrl = "https://api.openweathermap.org";
     let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
     let apiParams = "appid=" + apiKey + "&units=metric";
 
     axios
-      .get(root + "/data/2.5/weather?" + apiParams + "&q=Lisbon")
+      .get(apiUrl + "/data/2.5/weather?" + apiParams + "&q=Miami")
       .then(response => {
         this.setState({
           conditions: {
@@ -88,7 +89,11 @@ export default class App extends Component {
         </div>
       );
     } else {
-      return <div>App is loading</div>;
+      return (
+        <div>
+          App is loading, <em>please wait...</em>
+        </div>
+      );
     }
   }
 }
