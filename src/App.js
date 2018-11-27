@@ -1,62 +1,73 @@
 import React, { Component } from "react";
+import axios from "axios";
 import "./App.css";
 
 export default class App extends Component {
   constructor() {
     super();
+    this.state = {};
 
-    this.state = {
-      conditions: {
-        city: "Lisbon",
-        description: "Clouds",
-        imgUrl: "http://openweathermap.org/img/w/02d.png",
-        precipitation: "62%",
-        temperature: 12,
-        time: "Thu 15:09",
-        wind: "4 km/h"
-      }
-    };
+    let apiUrl = "https://api.openweathermap.org";
+    let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+    let apiParams = "appid=" + apiKey + "&units=metric";
+
+    axios
+      .get(apiUrl + "/data/2.5/weather?" + apiParams + "&q=Miami")
+      .then(response => {
+        this.setState({
+          conditions: {
+            city: response.data.name,
+            description: response.data.weather[0].main,
+            imgUrl:
+              "http://openweathermap.org/img/w/" +
+              response.data.weather[0].icon +
+              ".png",
+            precipitation: Math.round(response.data.main.humidity) + "%",
+            temperature: Math.round(response.data.main.temp),
+            time: this.friendlyDate(new Date()),
+            wind: Math.round(response.data.wind.speed) + "km/h"
+          }
+        });
+      });
+  }
+
+  friendlyDate(date) {
+    let days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ];
+    let minutes = date.getMinutes();
+    if (minutes < 10) minutes = "0" + minutes;
+
+    return days[date.getDay()] + " " + date.getHours() + ":" + minutes;
   }
 
   render() {
-    return (
-      <div className="weather-summary">
-        <div className="weather-summary-header">
-          <h1>{this.state.conditions.city}</h1>
-          <div className="weather-detail__text">
-            {this.state.conditions.time}
-          </div>
-          <div className="weather-detail__text">
-            {this.state.conditions.description}
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col-md-6">
-            <div className="clearfix">
-              <img
-                className="weather__icon weather__icon--today"
-                alt="weather icon"
-                src={this.state.conditions.imgUrl}
-              />
-              <div className="weather-temp weather-temp--today">
-                {this.state.conditions.temperature}
-              </div>
-              <div className="weather-unit__text weather-unit__text--today">
-                °C
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6">
+    if (this.state.conditions) {
+      return (
+        <div className="weather-summary">
+          <div className="weather-summary-header">
+            <h1>{this.state.conditions.city}</h1>
             <div className="weather-detail__text">
-              Precipitation: {this.state.conditions.precipitation}
+              {this.state.conditions.time}
             </div>
             <div className="weather-detail__text">
-              Wind: {this.state.conditions.wind}
+              {this.state.conditions.description}
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div>
+          App is loading, <em>please wait...</em>
+        </div>
+      );
+    }
   }
 }
