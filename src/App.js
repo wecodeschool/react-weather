@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import "./App.css";
 
 export default class App extends Component {
@@ -11,6 +12,11 @@ export default class App extends Component {
     time: "Thu 15:09",
     wind: "4 km/h"
   };
+
+  constructor(props) {
+    super(props);
+    console.log(axios);
+  }
 
   render() {
     return (
