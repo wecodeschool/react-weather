@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import "./App.css";
+import WeatherIcon from "./WeatherIcon";
 
 export default class App extends Component {
   state = {};
@@ -28,10 +29,7 @@ export default class App extends Component {
           conditions: {
             city: response.data.name,
             description: response.data.weather[0].main,
-            imgUrl:
-              "http://openweathermap.org/img/w/" +
-              response.data.weather[0].icon +
-              ".png",
+            icon: response.data.weather[0].icon,
             precipitation: Math.round(response.data.main.humidity) + "%",
             temperature: Math.round(response.data.main.temp),
             time: this.friendlyDate(new Date()),
@@ -74,11 +72,7 @@ export default class App extends Component {
           <div className="row">
             <div className="col-md-6">
               <div className="clearfix">
-                <img
-                  className="weather__icon weather__icon--today"
-                  alt="weather icon"
-                  src={this.state.conditions.imgUrl}
-                />
+                <WeatherIcon iconName={this.state.conditions.icon} />
                 <div className="weather-temp weather-temp--today">
                   {this.state.conditions.temperature}
                 </div>
