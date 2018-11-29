@@ -1,18 +1,28 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import axios from "axios";
 import "./App.css";
 
 export default class App extends Component {
-  constructor() {
-    super();
-    this.state = {};
+  state = {};
+
+  static propTypes = {
+    city: PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    city: "lisbon"
+  };
+
+  constructor(props) {
+    super(props);
 
     let apiUrl = "https://api.openweathermap.org";
     let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
     let apiParams = "appid=" + apiKey + "&units=metric";
 
     axios
-      .get(apiUrl + "/data/2.5/weather?" + apiParams + "&q=Lisbon")
+      .get(apiUrl + "/data/2.5/weather?" + apiParams + "&q=" + this.props.city)
       .then(response => {
         this.setState({
           conditions: {
