@@ -12,7 +12,7 @@ export default class App extends Component {
     let apiParams = "appid=" + apiKey + "&units=metric";
 
     axios
-      .get(apiUrl + "/data/2.5/weather?" + apiParams + "&q=Miami")
+      .get(apiUrl + "/data/2.5/weather?" + apiParams + "&q=Lisbon")
       .then(response => {
         this.setState({
           conditions: {
@@ -58,6 +58,32 @@ export default class App extends Component {
             </div>
             <div className="weather-detail__text">
               {this.state.conditions.description}
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-md-6">
+              <div className="clearfix">
+                <img
+                  className="weather__icon weather__icon--today"
+                  alt="weather icon"
+                  src={this.state.conditions.imgUrl}
+                />
+                <div className="weather-temp weather-temp--today">
+                  {this.state.conditions.temperature}
+                </div>
+                <div className="weather-unit__text weather-unit__text--today">
+                  °C
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="weather-detail__text">
+                Precipitation: {this.state.conditions.precipitation}
+              </div>
+              <div className="weather-detail__text">
+                Wind: {this.state.conditions.wind}
+              </div>
             </div>
           </div>
         </div>
