@@ -12,18 +12,24 @@ export default class App extends Component {
   };
 
   static defaultProps = {
-    city: "lisbon"
+    city: "lisbon",
+    apiUrl: "https://api.openweathermap.org",
+    apiKey: "5f472b7acba333cd8a035ea85a0d4d4c"
   };
 
   constructor(props) {
     super(props);
 
-    let apiUrl = "https://api.openweathermap.org";
-    let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
-    let apiParams = "appid=" + apiKey + "&units=metric";
+    let apiParams = "appid=" + this.props.apiKey + "&units=metric";
 
     axios
-      .get(apiUrl + "/data/2.5/weather?" + apiParams + "&q=" + this.props.city)
+      .get(
+        this.props.apiUrl +
+          "/data/2.5/weather?" +
+          apiParams +
+          "&q=" +
+          this.props.city
+      )
       .then(response => {
         this.setState({
           conditions: {
@@ -55,10 +61,42 @@ export default class App extends Component {
     return days[date.getDay()] + " " + date.getHours() + ":" + minutes;
   }
 
+  currentLocation(event) {
+    navigator.geolocation.getCurrentPosition(position => {
+      let apiParams = "appid=" + this.props.apiKey + "&units=metric";
+      axios
+        .get(
+          this.props.apiUrl +
+            "/data/2.5/weather?" +
+            apiParams +
+            "&lat=" +
+            position.coords.latitude +
+            "&lon=" +
+            position.coords.longitude
+        )
+        .then(response => {
+          this.setState({
+            conditions: {
+              city: response.data.name,
+              description: response.data.weather[0].main,
+              icon: response.data.weather[0].icon,
+              precipitation: Math.round(response.data.main.humidity) + "%",
+              temperature: Math.round(response.data.main.temp),
+              time: this.friendlyDate(new Date()),
+              wind: Math.round(response.data.wind.speed) + "km/h"
+            }
+          });
+        });
+    });
+  }
+
   render() {
     if (this.state.conditions) {
       return (
         <div className="weather-summary">
+          <button onClick={event => this.currentLocation(event)}>
+            Current Location
+          </button>
           <div className="weather-summary-header">
             <h1>{this.state.conditions.city}</h1>
             <div className="weather-detail__text">
