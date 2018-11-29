@@ -20,29 +20,15 @@ export default class App extends Component {
   constructor(props) {
     super(props);
 
-    let apiParams = "appid=" + this.props.apiKey + "&units=metric";
-
-    axios
-      .get(
-        this.props.apiUrl +
-          "/data/2.5/weather?" +
-          apiParams +
-          "&q=" +
-          this.props.city
-      )
-      .then(response => {
-        this.setState({
-          conditions: {
-            city: response.data.name,
-            description: response.data.weather[0].main,
-            icon: response.data.weather[0].icon,
-            precipitation: Math.round(response.data.main.humidity) + "%",
-            temperature: Math.round(response.data.main.temp),
-            time: this.friendlyDate(new Date()),
-            wind: Math.round(response.data.wind.speed) + "km/h"
-          }
-        });
-      });
+    this.refreshWeatherFromUrl(
+      this.props.apiUrl +
+        "/data/2.5/weather?" +
+        "appid=" +
+        this.props.apiKey +
+        "&units=metric" +
+        "&q=" +
+        this.props.city
+    );
   }
 
   friendlyDate(date) {
@@ -61,32 +47,42 @@ export default class App extends Component {
     return days[date.getDay()] + " " + date.getHours() + ":" + minutes;
   }
 
+  refreshWeatherFromUrl(url) {
+    axios.get(url).then(response => {
+      this.setState({
+        conditions: {
+          city: response.data.name,
+          description: response.data.weather[0].main,
+          icon: response.data.weather[0].icon,
+          precipitation: Math.round(response.data.main.humidity) + "%",
+          temperature: Math.round(response.data.main.temp),
+          time: this.friendlyDate(new Date()),
+          wind: Math.round(response.data.wind.speed) + "km/h"
+        }
+      });
+    });
+  }
+
+  refreshWeatherFromLatitudeAndLongitude(latitude, longitude) {
+    this.refreshWeatherFromUrl(
+      this.props.apiUrl +
+        "/data/2.5/weather?" +
+        "appid=" +
+        this.props.apiKey +
+        "&units=metric" +
+        "&lat=" +
+        latitude +
+        "&lon=" +
+        longitude
+    );
+  }
+
   currentLocation(event) {
     navigator.geolocation.getCurrentPosition(position => {
-      let apiParams = "appid=" + this.props.apiKey + "&units=metric";
-      axios
-        .get(
-          this.props.apiUrl +
-            "/data/2.5/weather?" +
-            apiParams +
-            "&lat=" +
-            position.coords.latitude +
-            "&lon=" +
-            position.coords.longitude
-        )
-        .then(response => {
-          this.setState({
-            conditions: {
-              city: response.data.name,
-              description: response.data.weather[0].main,
-              icon: response.data.weather[0].icon,
-              precipitation: Math.round(response.data.main.humidity) + "%",
-              temperature: Math.round(response.data.main.temp),
-              time: this.friendlyDate(new Date()),
-              wind: Math.round(response.data.wind.speed) + "km/h"
-            }
-          });
-        });
+      this.refreshWeatherFromLatitudeAndLongitude(
+        position.coords.latitude,
+        position.coords.longitude
+      );
     });
   }
 
