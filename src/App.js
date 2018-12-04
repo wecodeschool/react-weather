@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import "./App.css";
 import WeatherIcon from "./WeatherIcon";
+import CurrentLocation from "./CurrentLocation";
+import Search from "./Search";
 
 export default class App extends Component {
   state = {};
@@ -19,16 +21,7 @@ export default class App extends Component {
 
   constructor(props) {
     super(props);
-
-    this.refreshWeatherFromUrl(
-      this.props.apiUrl +
-        "/data/2.5/weather?" +
-        "appid=" +
-        this.props.apiKey +
-        "&units=metric" +
-        "&q=" +
-        this.props.city
-    );
+    this.refreshWeatherFromCity(this.props.city);
   }
 
   friendlyDate(date) {
@@ -63,7 +56,7 @@ export default class App extends Component {
     });
   }
 
-  refreshWeatherFromLatitudeAndLongitude(latitude, longitude) {
+  refreshWeatherFromLatitudeAndLongitude = (latitude, longitude) => {
     this.refreshWeatherFromUrl(
       this.props.apiUrl +
         "/data/2.5/weather?" +
@@ -75,52 +68,61 @@ export default class App extends Component {
         "&lon=" +
         longitude
     );
-  }
+  };
 
-  currentLocation(event) {
-    navigator.geolocation.getCurrentPosition(position => {
-      this.refreshWeatherFromLatitudeAndLongitude(
-        position.coords.latitude,
-        position.coords.longitude
-      );
-    });
-  }
+  refreshWeatherFromCity = city => {
+    this.refreshWeatherFromUrl(
+      this.props.apiUrl +
+        "/data/2.5/weather?" +
+        "appid=" +
+        this.props.apiKey +
+        "&units=metric" +
+        "&q=" +
+        city
+    );
+  };
 
   render() {
     if (this.state.conditions) {
       return (
-        <div className="weather-summary">
-          <button onClick={event => this.currentLocation(event)}>
-            Current Location
-          </button>
-          <div className="weather-summary-header">
-            <h1>{this.state.conditions.city}</h1>
-            <div className="weather-detail__text">
-              {this.state.conditions.time}
-            </div>
-            <div className="weather-detail__text">
-              {this.state.conditions.description}
-            </div>
+        <div>
+          <div className="clearfix">
+            <Search refresh={this.refreshWeatherFromCity} />
+            <CurrentLocation
+              refresh={this.refreshWeatherFromLatitudeAndLongitude}
+            />
           </div>
-
-          <div className="row">
-            <div className="col-md-6">
-              <div className="clearfix">
-                <WeatherIcon iconName={this.state.conditions.icon} />
-                <div className="weather-temp weather-temp--today">
-                  {this.state.conditions.temperature}
-                </div>
-                <div className="weather-unit__text weather-unit__text--today">
-                  °C
-                </div>
+          <br />
+          <div className="weather-summary">
+            <div className="weather-summary-header">
+              <h1>{this.state.conditions.city}</h1>
+              <div className="weather-detail__text">
+                {this.state.conditions.time}
+              </div>
+              <div className="weather-detail__text">
+                {this.state.conditions.description}
               </div>
             </div>
-            <div className="col-md-6">
-              <div className="weather-detail__text">
-                Precipitation: {this.state.conditions.precipitation}
+
+            <div className="row">
+              <div className="col-md-6">
+                <div className="clearfix">
+                  <WeatherIcon iconName={this.state.conditions.icon} />
+                  <div className="weather-temp weather-temp--today">
+                    {this.state.conditions.temperature}
+                  </div>
+                  <div className="weather-unit__text weather-unit__text--today">
+                    °C
+                  </div>
+                </div>
               </div>
-              <div className="weather-detail__text">
-                Wind: {this.state.conditions.wind}
+              <div className="col-md-6">
+                <div className="weather-detail__text">
+                  Precipitation: {this.state.conditions.precipitation}
+                </div>
+                <div className="weather-detail__text">
+                  Wind: {this.state.conditions.wind}
+                </div>
               </div>
             </div>
           </div>
