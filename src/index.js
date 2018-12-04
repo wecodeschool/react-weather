@@ -1,5 +1,5 @@
 import React from "react";
 import ReactDom from "react-dom";
-import App from "./App";
+import Weather from "./Weather";
 
-ReactDom.render(<App city="Lisbon" />, document.querySelector("#lisbon"));
+ReactDom.render(<Weather city="Lisbon" />, document.querySelector("#lisbon"));
