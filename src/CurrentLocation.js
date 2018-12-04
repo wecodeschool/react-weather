@@ -13,7 +13,6 @@ export default class CurrentLocation extends Component {
   render() {
     return (
       <button
-        id="weather-refresh"
         className="float-left btn btn-success"
         onClick={event => this._click(event)}
       >
