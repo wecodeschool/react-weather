@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import "./App.css";
 import WeatherIcon from "./WeatherIcon";
-import CurrentLocation from "./CurrentLocation";
-import Search from "./Search";
+// import CurrentLocation from "./CurrentLocation";
+// import Search from "./Search";
 
 export default class App extends Component {
   state = {};
@@ -87,10 +87,10 @@ export default class App extends Component {
       return (
         <div>
           <div className="clearfix">
-            <Search refresh={this.refreshWeatherFromCity} />
-            <CurrentLocation
+            {/* <Search refresh={this.refreshWeatherFromCity} /> */}
+            {/* <CurrentLocation
               refresh={this.refreshWeatherFromLatitudeAndLongitude}
-            />
+            /> */}
           </div>
           <br />
           <div className="weather-summary">
