@@ -19,14 +19,9 @@ export default class Search extends Component {
 
   render() {
     return (
-      <form
-        id="weather__form"
-        className="float-left"
-        onClick={event => this._submit(event)}
-      >
+      <form className="float-left" onClick={event => this._submit(event)}>
         <input
           type="text"
-          id="weather__form-location"
           placeholder="Enter a city"
           autoComplete="off"
           autoFocus="on"
