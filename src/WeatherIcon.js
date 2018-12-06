@@ -1,20 +1,46 @@
 import React, { Component } from "react";
+import ReactAnimatedWeather from "react-animated-weather";
 import PropTypes from "prop-types";
 
 export default class WeatherIcon extends Component {
-  static propTypes = {
-    iconName: PropTypes.string.isRequired
+  static propTypes = { iconName: PropTypes.string.isRequired };
+
+  iconMatching = {
+    "01d": "CLEAR_DAY",
+    "01n": "CLEAR_NIGHT",
+    "02d": "PARTLY_CLOUDY_DAY",
+    "02n": "PARTLY_CLOUDY_NIGHT",
+    "03d": "CLOUDY",
+    "03n": "CLOUDY",
+    "04d": "CLOUDY",
+    "04n": "CLOUDY",
+    "09d": "RAIN",
+    "09n": "RAIN",
+    "10d": "RAIN",
+    "10n": "RAIN",
+    "11d": "SLEET",
+    "11n": "SLEET",
+    "13d": "SNOW",
+    "13n": "SNOW",
+    "50d": "FOG",
+    "50n": "FOG"
   };
 
+  constructor(props) {
+    super(props);
+    this.state = { icon: this.iconMatching[this.props.iconName] };
+  }
+
   render() {
-    let imgSrc =
-      "http://openweathermap.org/img/w/" + this.props.iconName + ".png";
     return (
-      <img
-        className="weather__icon weather__icon--today"
-        alt="weather icon"
-        src={imgSrc}
-      />
+      <div className="float-left weather-icon">
+        <ReactAnimatedWeather
+          icon={this.state.icon}
+          color="#000"
+          size={38}
+          animate={true}
+        />
+      </div>
     );
   }
 }
