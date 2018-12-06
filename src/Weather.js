@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import "./App.css";
+import "./Weather.css";
 import WeatherIcon from "./WeatherIcon";
 import CurrentLocation from "./CurrentLocation";
 import Search from "./Search";
 
-export default class App extends Component {
+export default class Weather extends Component {
   state = {};
 
   static propTypes = {
