@@ -26,16 +26,11 @@ export default class WeatherIcon extends Component {
     "50n": "FOG"
   };
 
-  constructor(props) {
-    super(props);
-    this.state = { icon: this.iconMatching[this.props.iconName] };
-  }
-
   render() {
     return (
       <div className="float-left weather-icon">
         <ReactAnimatedWeather
-          icon={this.state.icon}
+          icon={this.iconMatching[this.props.iconName]}
           color="#000"
           size={38}
           animate={true}
