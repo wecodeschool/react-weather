@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import "./Weather.css";
 import WeatherIcon from "./WeatherIcon";
-// import CurrentLocation from "./CurrentLocation";
-// import Search from "./Search";
+import CurrentLocation from "./CurrentLocation";
+import Search from "./Search";
 
 export default class Weather extends Component {
   state = {};
@@ -14,7 +14,6 @@ export default class Weather extends Component {
   };
 
   static defaultProps = {
-    city: "lisbon",
     apiUrl: "https://api.openweathermap.org",
     apiKey: "5f472b7acba333cd8a035ea85a0d4d4c"
   };
@@ -87,12 +86,13 @@ export default class Weather extends Component {
       return (
         <div>
           <div className="clearfix">
-            {/* <Search refresh={this.refreshWeatherFromCity} /> */}
-            {/* <CurrentLocation
+            <Search refresh={this.refreshWeatherFromCity} />
+            <CurrentLocation
               refresh={this.refreshWeatherFromLatitudeAndLongitude}
-            /> */}
+            />
           </div>
           <br />
+
           <div className="weather-summary">
             <div className="weather-summary-header">
               <h1>{this.state.conditions.city}</h1>

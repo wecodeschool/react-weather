@@ -32,6 +32,10 @@ input[type="text"] {
   height: 44px;
 }
 
+.weather-icon {
+  margin-top: 5px;
+}
+
 .weather-summary {
   padding-bottom: 20px;
 }
