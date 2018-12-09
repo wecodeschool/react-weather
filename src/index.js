@@ -1,5 +1,11 @@
 import React from "react";
 import ReactDom from "react-dom";
-import Weather from "./Weather";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
 
-ReactDom.render(<Weather city="Lisbon" />, document.querySelector("#lisbon"));
+ReactDom.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.querySelector("#lisbon")
+);
