@@ -16,7 +16,7 @@ export default class CurrentLocation extends Component {
         className="float-left btn btn-success"
         onClick={event => this._click(event)}
       >
-        Current Location
+        Current
       </button>
     );
   }

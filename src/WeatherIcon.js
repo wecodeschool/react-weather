@@ -28,14 +28,12 @@ export default class WeatherIcon extends Component {
 
   render() {
     return (
-      <div className="float-left weather-icon">
-        <ReactAnimatedWeather
-          icon={this.iconMatching[this.props.iconName]}
-          color="#000"
-          size={38}
-          animate={true}
-        />
-      </div>
+      <ReactAnimatedWeather
+        icon={this.iconMatching[this.props.iconName]}
+        color="#000"
+        size={38}
+        animate={true}
+      />
     );
   }
 }
