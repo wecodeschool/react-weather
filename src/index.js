@@ -7,5 +7,5 @@ ReactDom.render(
   <BrowserRouter>
     <App />
   </BrowserRouter>,
-  document.querySelector("#lisbon")
+  document.querySelector("#weather")
 );
