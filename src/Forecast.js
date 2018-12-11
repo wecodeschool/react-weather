@@ -26,6 +26,8 @@ export default class Forecast extends Component {
 
     axios.get(url).then(response => {
       let forecast = response.data.list;
+      // The API returns the forecast every 3 hour, so we are exrtacting
+      // the weather for every 24 hours which 8 times 3 hour cycles
       let dailyForecast = [7, 15, 23, 31, 39].map(index => {
         return {
           description: forecast[index].weather[0].main,
